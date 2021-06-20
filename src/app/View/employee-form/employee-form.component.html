@@ -1,0 +1,109 @@
+{{ areas.data | json }}
+
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Register new employee</h5>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">type of document</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="type_document"
+                id="name"
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Document</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="document"
+                id="name"
+                placeholder=""
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                id="name"
+                placeholder=""
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="">LastName</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="lastname"
+                id="name"
+                placeholder=""
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="my-select">Area</label>
+              <select
+                id="my-select"
+                class="form-control"
+                (change)="onSelect($event.target.value)"
+                formControlName="idArea"
+              >
+                <option value="" selected disabled hidden>Choose here</option>
+
+                <option *ngFor="let area of areas.data" value="{{ area.id }}">
+                  {{ area.areaName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="my-select">Subarea</label>
+              <select
+                formControlName="idSubarea"
+                id="my-select"
+                class="form-control"
+              >
+                <option
+                  *ngFor="let subarea of subareas"
+                  value="{{ subarea.id }}"
+                >
+                  {{ subarea.subareaName }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          name=""
+          id=""
+          class="btn btn-primary btn-lg btn-block"
+          [disabled]="form.invalid"
+        >
+          submit
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{{ subareas | json }}
