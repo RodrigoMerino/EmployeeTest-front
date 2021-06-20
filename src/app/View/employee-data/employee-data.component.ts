@@ -14,11 +14,11 @@ export class EmployeeDataComponent implements OnInit {
   dataSource: employeeData;
 
   CurrentPage = 1;
-  PageSize = 10;
-  total: 0;
+  PageSize = 5;
+  total: any;
 
   ngOnInit(): void {
-    this.getEmployees();
+    this.getAllPaginated();
   }
 
   getEmployees() {
@@ -31,7 +31,9 @@ export class EmployeeDataComponent implements OnInit {
     this._employeeService
       .getAllPaginated(this.CurrentPage, this.PageSize)
       .subscribe((res) => {
-        (this.dataSource = res), console.log((this.dataSource = res));
+        (this.dataSource = res),
+          (this.total = res['meta'].totalCount),
+          console.log((this.dataSource = res));
       });
   }
 
@@ -43,6 +45,11 @@ export class EmployeeDataComponent implements OnInit {
   goToNext(): void {
     console.log('go to next');
     this.CurrentPage++;
+    this.getAllPaginated();
+  }
+
+  goToPage(n: number) {
+    this.CurrentPage = n;
     this.getAllPaginated();
   }
 }

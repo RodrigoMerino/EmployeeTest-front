@@ -8,5 +8,14 @@
     </tr>
   </tbody>
 </table>
-<app-pagination (goPrev)="goToPrevious()" (goNext)="goToNext()">
-</app-pagination>
+<div class="text-center">
+  <app-pagination
+    (goPrev)="goToPrevious()"
+    (goNext)="goToNext()"
+    (goPage)="goToPage($event)"
+    [page]="CurrentPage"
+    [perPage]="PageSize"
+    [count]="total"
+  >
+  </app-pagination>
+</div>

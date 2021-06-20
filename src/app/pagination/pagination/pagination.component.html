@@ -1,2 +1,16 @@
-<button class="btn btn-primary" (click)="onPrev()">go to prev</button>
-<button class="btn btn-primary" (click)="onNext()">go to next</button>
+<button class="btn btn-primary" (click)="onPrev()" [disabled]="isFirstPage()">
+  go to prev
+</button>
+<button
+  class="btn btn-small btn-info m-1"
+  type="button"
+  *ngFor="let pageNum of getPages()"
+  (click)="onPage(pageNum)"
+>
+  {{ pageNum }}
+</button>
+
+<button class="btn btn-primary" (click)="onNext()" [disabled]="isLastPage()">
+  go to next
+</button>
+{{ totalPages() }}
