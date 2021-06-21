@@ -1,21 +1,30 @@
 <p>employee-data works!</p>
 
 <table class="table table-light">
+  <thead>
+    <th>name</th>
+    <th>lastname</th>
+    <th>Area</th>
+    <th>SubArea</th>
+    <th>doc</th>
+  </thead>
   <tbody>
     <tr *ngFor="let item of dataSource.data">
       <td>{{ item.name }}</td>
-      <td>{{ item.id }}</td>
+      <td>{{ item.lastName }}</td>
+      <td>{{ item.idAreaNavigation["areaName"] }}</td>
+      <td>{{ item.idSubareaNavigation["subareaName"] }}</td>
+      <td>{{ item.document }}</td>
     </tr>
   </tbody>
 </table>
-<div class="text-center">
-  <app-pagination
-    (goPrev)="goToPrevious()"
-    (goNext)="goToNext()"
-    (goPage)="goToPage($event)"
-    [page]="CurrentPage"
-    [perPage]="PageSize"
-    [count]="total"
-  >
-  </app-pagination>
-</div>
+
+<app-pagination
+  (goPrev)="goToPrevious()"
+  (goNext)="goToNext()"
+  (goPage)="goToPage($event)"
+  [page]="CurrentPage"
+  [perPage]="PageSize"
+  [count]="total"
+>
+</app-pagination>

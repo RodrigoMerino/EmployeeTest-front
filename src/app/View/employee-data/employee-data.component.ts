@@ -12,7 +12,6 @@ import {
 export class EmployeeDataComponent implements OnInit {
   constructor(private _employeeService: EmployeeServiceService) {}
   dataSource: employeeData;
-
   CurrentPage = 1;
   PageSize = 5;
   total: any;
