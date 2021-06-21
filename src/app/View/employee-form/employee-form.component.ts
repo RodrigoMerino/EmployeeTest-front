@@ -57,11 +57,6 @@ export class EmployeeFormComponent implements OnInit {
     });
   }
 
-  // getSubareas() {
-  //   return this._subareaService.getSubareas().subscribe((res) => {
-  //     (this.subareas = res['data']), console.log((this.subareas = res['data']));
-  //   });
-  // }
   onSelect(id: number): void {
     this.subareas['data'] = this._subareaService
       .getSubareas(id)
@@ -74,7 +69,7 @@ export class EmployeeFormComponent implements OnInit {
       typeDocument: this.form.get('type_document').value,
       document: this.form.get('document').value,
       name: this.form.get('name').value,
-      lastname: this.form.get('lastname').value,
+      lastName: this.form.get('lastName').value,
       idArea: this.form.get('idArea').value,
       idSubarea: this.form.get('idSubarea').value,
     };

@@ -1,30 +1,152 @@
-<p>employee-data works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-7">
+      <table class="table table-light">
+        <thead>
+          <th>name</th>
+          <th>lastname</th>
+          <th>Area</th>
+          <th>SubArea</th>
+          <th>doc</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of dataSource.data">
+            <td>{{ item.name }}</td>
+            <td>{{ item.lastName }}</td>
+            <td>{{ item.idAreaNavigation["areaName"] }}</td>
+            <td>{{ item.idSubareaNavigation["subareaName"] }}</td>
+            <td>{{ item.document }}</td>
+            <td>
+              <i
+                class="fas fa-user-edit"
+                style="cursor: pointer"
+                (click)="update(item)"
+              ></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-<table class="table table-light">
-  <thead>
-    <th>name</th>
-    <th>lastname</th>
-    <th>Area</th>
-    <th>SubArea</th>
-    <th>doc</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of dataSource.data">
-      <td>{{ item.name }}</td>
-      <td>{{ item.lastName }}</td>
-      <td>{{ item.idAreaNavigation["areaName"] }}</td>
-      <td>{{ item.idSubareaNavigation["subareaName"] }}</td>
-      <td>{{ item.document }}</td>
-    </tr>
-  </tbody>
-</table>
+      <app-pagination
+        (goPrev)="goToPrevious()"
+        (goNext)="goToNext()"
+        (goPage)="goToPage($event)"
+        [page]="CurrentPage"
+        [perPage]="PageSize"
+        [count]="total"
+      >
+      </app-pagination>
+    </div>
+    <div class="col-md-5">
+      <div class="card shadow">
+        <div class="card-body">
+          <h5 class="card-title">Register new employee</h5>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">type of document</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="type_document"
+                    id="name"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">Document</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="document"
+                    id="name"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">Name</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="name"
+                    id="name"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="">LastName</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="lastName"
+                    id="name"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="my-select">Area</label>
+                  <select
+                    id="my-select"
+                    class="form-control"
+                    (change)="onSelect($event.target.value)"
+                    formControlName="idArea"
+                  >
+                    <option value="" selected disabled hidden>
+                      Choose here
+                    </option>
 
-<app-pagination
-  (goPrev)="goToPrevious()"
-  (goNext)="goToNext()"
-  (goPage)="goToPage($event)"
-  [page]="CurrentPage"
-  [perPage]="PageSize"
-  [count]="total"
->
-</app-pagination>
+                    <option
+                      *ngFor="let area of areas.data"
+                      value="{{ area.id }}"
+                    >
+                      {{ area.areaName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="my-select">Subarea</label>
+                  <select
+                    formControlName="idSubarea"
+                    id="my-select"
+                    class="form-control"
+                  >
+                    <option
+                      *ngFor="let subarea of subareas"
+                      value="{{ subarea.id }}"
+                    >
+                      {{ subarea.subareaName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              name=""
+              id=""
+              class="btn btn-primary btn-lg btn-block"
+              [disabled]="form.invalid"
+            >
+              submit
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

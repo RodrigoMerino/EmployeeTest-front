@@ -9,6 +9,7 @@ import { NavbarComponent } from './includes/navbar/navbar.component';
 import { EmployeeDataComponent } from './view/employee-data/employee-data.component';
 import { EmployeeFormComponent } from './view/employee-form/employee-form.component';
 import { PaginationComponent } from './pagination/pagination/pagination.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { PaginationComponent } from './pagination/pagination/pagination.componen
     EmployeeDataComponent,
     EmployeeFormComponent,
     PaginationComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,
