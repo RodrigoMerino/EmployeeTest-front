@@ -14,6 +14,7 @@ import {
 } from 'src/app/Services/area-service.service';
 import { SubareaServiceService } from 'src/app/Services/subarea-service.service';
 import { Subarea } from 'src/app/Interfaces/Subarea';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employee-data',
@@ -28,12 +29,16 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   areas: areaData;
   subareas: Subarea[];
   idEmployee = 0;
+  CurrentPage = 1;
+  PageSize = 5;
+  total: any;
 
   constructor(
     private _employeeService: EmployeeServiceService,
     private formBuilder: FormBuilder,
     private _areaService: AreaServiceService,
-    private _subareaService: SubareaServiceService
+    private _subareaService: SubareaServiceService,
+    private toaster: ToastrService
   ) {
     this.form = this.formBuilder.group({
       id: 0,
@@ -47,9 +52,6 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   }
 
   private updateEmployee = new BehaviorSubject<employeeData>({} as any);
-  CurrentPage = 1;
-  PageSize = 5;
-  total: any;
 
   ngOnInit(): void {
     this.getAreas();
@@ -74,12 +76,20 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.suscription.unsubscribe();
   }
+
   onSubmit() {
     if (this.idEmployee === 0) {
       this.createEmployee();
     } else {
       this.updatedEmployee();
     }
+  }
+
+  deleteEmployee(id: number) {
+    this._employeeService.deleteEmployee(id).subscribe((res) => {
+      this.toaster.success('yuo did', 'da');
+      this.getAllPaginated();
+    });
   }
   update(employee) {
     this._employeeService.update(employee);
@@ -105,6 +115,7 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
       });
     console.log(this.form);
   }
+
   getEmployees() {
     this._employeeService.getEmployees().subscribe((res) => {
       (this.dataSource = res), console.log((this.dataSource = res));
@@ -121,22 +132,6 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
       });
   }
 
-  goToPrevious(): void {
-    console.log('go to previous');
-    this.CurrentPage--;
-    this.getAllPaginated();
-  }
-  goToNext(): void {
-    console.log('go to next');
-    this.CurrentPage++;
-    this.getAllPaginated();
-  }
-
-  goToPage(n: number) {
-    this.CurrentPage = n;
-    this.getAllPaginated();
-  }
-
   getAreas() {
     this._areaService.getAreas().subscribe((res) => {
       this.areas = res;
@@ -150,6 +145,7 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
         this.subareas = res['data'];
       });
   }
+
   createEmployee() {
     this.data = {
       typeDocument: this.form.get('type_document').value,
@@ -165,5 +161,22 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
       this.form.reset();
     });
     console.log(this.form);
+  }
+
+  goToPrevious(): void {
+    console.log('go to previous');
+    this.CurrentPage--;
+    this.getAllPaginated();
+  }
+
+  goToNext(): void {
+    console.log('go to next');
+    this.CurrentPage++;
+    this.getAllPaginated();
+  }
+
+  goToPage(n: number) {
+    this.CurrentPage = n;
+    this.getAllPaginated();
   }
 }

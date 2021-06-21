@@ -10,6 +10,8 @@ import { EmployeeDataComponent } from './view/employee-data/employee-data.compon
 import { EmployeeFormComponent } from './view/employee-form/employee-form.component';
 import { PaginationComponent } from './pagination/pagination/pagination.component';
 import { ModalComponent } from './modal/modal.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { ModalComponent } from './modal/modal.component';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],

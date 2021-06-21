@@ -57,6 +57,9 @@ export class EmployeeServiceService {
     return this.http.put(this.baseUrluri + id, employee);
   }
 
+  deleteEmployee(id: number) {
+    return this.http.delete(this.baseUrluri + id);
+  }
   handleError(error: any) {
     const errMsg = error.Message
       ? error.Message
