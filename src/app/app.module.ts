@@ -11,6 +11,7 @@ import { EmployeeFormComponent } from './view/employee-form/employee-form.compon
 import { PaginationComponent } from './pagination/pagination/pagination.component';
 import { ModalComponent } from './modal/modal.component';
 import { ToastrModule } from 'ngx-toastr';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -31,6 +32,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    Ng2SearchPipeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

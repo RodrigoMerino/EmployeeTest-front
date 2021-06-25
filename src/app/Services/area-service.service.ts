@@ -13,14 +13,22 @@ export class AreaServiceService {
   constructor(private http: HttpClient) {}
 
   readonly baseUrl = 'https://localhost:44359/api/area';
+  readonly baseUrlPython = 'http://127.0.0.1:3000/get_areas';
 
+  // net core
   getAreas() {
     return this.http.get(this.baseUrl).pipe(
       map((res) => res as any),
       catchError(this.handleError)
     );
   }
-
+  // python
+  getAreasPython() {
+    return this.http.get(this.baseUrlPython).pipe(
+      map((res) => res as any),
+      catchError(this.handleError)
+    );
+  }
   handleError(error: any) {
     const errMsg = error.Message
       ? error.Message

@@ -15,6 +15,7 @@ import {
 import { SubareaServiceService } from 'src/app/Services/subarea-service.service';
 import { Subarea } from 'src/app/Interfaces/Subarea';
 import { ToastrService } from 'ngx-toastr';
+import { catchError, map, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-data',
@@ -23,6 +24,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EmployeeDataComponent implements OnInit, OnDestroy {
   dataSource: employeeData;
+  filter: employeeData;
+  name: any;
   suscription: Subscription;
   form: FormGroup;
   data: Employee;
@@ -30,7 +33,7 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   subareas: Subarea[];
   idEmployee = 0;
   CurrentPage = 1;
-  PageSize = 5;
+  PageSize = 10;
   total: any;
 
   constructor(
@@ -55,10 +58,13 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getAreas();
+    console.log(this.dataSource);
     // this.getSubareas();
     console.log(this.subareas);
     console.log(this.onSelect);
     this.getAllPaginated();
+    // this.getEmployees();
+    // this.getAllPaginatedEmployees();
     this.suscription = this._employeeService.getEmployee().subscribe((res) => {
       console.log(res);
       this.data = res;
@@ -118,8 +124,17 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
 
   getEmployees() {
     this._employeeService.getEmployees().subscribe((res) => {
-      (this.dataSource = res), console.log((this.dataSource = res));
+      (this.total = this.statusCounter((this.data = res))),
+        console.log(this.total);
     });
+  }
+
+  getAllPaginatedEmployees() {
+    this._employeeService
+      .getAllEmployeesPaginated(this.CurrentPage, this.PageSize)
+      .subscribe((res) => {
+        (this.data = res), console.log((this.data = res));
+      });
   }
 
   getAllPaginated() {
@@ -133,17 +148,15 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   }
 
   getAreas() {
-    this._areaService.getAreas().subscribe((res) => {
+    this._areaService.getAreasPython().subscribe((res) => {
       this.areas = res;
     });
   }
 
   onSelect(id: number): void {
-    this.subareas['data'] = this._subareaService
-      .getSubareas(id)
-      .subscribe((res) => {
-        this.subareas = res['data'];
-      });
+    this._subareaService.getSubareasPython(id).subscribe((res) => {
+      this.subareas = res;
+    });
   }
 
   createEmployee() {
@@ -178,5 +191,25 @@ export class EmployeeDataComponent implements OnInit, OnDestroy {
   goToPage(n: number) {
     this.CurrentPage = n;
     this.getAllPaginated();
+  }
+
+  Search() {
+    if (this.name == '') {
+      this.ngOnInit();
+    } else {
+      this.dataSource['data'] = this.dataSource['data'].filter((res) => {
+        return res.name
+          .toLocaleLowerCase()
+          .match(this.name.toLocaleLowerCase());
+      });
+    }
+  }
+
+  statusCounter(inputs) {
+    let counter = 0;
+    for (var input of inputs) {
+      if (input) counter += 1;
+    }
+    return counter;
   }
 }

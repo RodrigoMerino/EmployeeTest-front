@@ -11,9 +11,17 @@ export class SubareaServiceService {
   constructor(private http: HttpClient) {}
 
   readonly baseUrl = 'https://localhost:44359/api/subarea/';
+  readonly baseUrlPython = 'http://127.0.0.1:3000/get_subarea/';
 
   getSubareas(idArea: number): Observable<Subarea[]> {
     return this.http.get(this.baseUrl + idArea).pipe(
+      map((res) => res as any),
+      catchError(this.handleError)
+    );
+  }
+
+  getSubareasPython(idArea: number): Observable<Subarea[]> {
+    return this.http.get(this.baseUrlPython + idArea).pipe(
       map((res) => res as any),
       catchError(this.handleError)
     );

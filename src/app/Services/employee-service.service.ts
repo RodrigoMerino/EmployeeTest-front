@@ -21,6 +21,8 @@ export class EmployeeServiceService {
 
   readonly baseUrl = 'https://localhost:44359/api/employee';
   readonly baseUrluri = 'https://localhost:44359/api/employee?id=';
+  readonly pythonUrrl = 'http://127.0.0.1:3000/getall';
+  readonly pythonUrrlp = 'http://127.0.0.1:3000/';
   update(employee) {
     this.updateEmployee.next(employee);
   }
@@ -29,7 +31,21 @@ export class EmployeeServiceService {
     return this.updateEmployee.asObservable();
   }
   getEmployees() {
-    return this.http.get(this.baseUrl).pipe(
+    return this.http.get(this.pythonUrrl).pipe(
+      map((res) => res as any),
+      catchError(this.handleError)
+    );
+  }
+
+  getAllEmployeesPaginated(
+    currentPage: number,
+    totalperPage: number
+  ): Observable<Employee> {
+    let params = new HttpParams();
+    params = params.append('skip', String(currentPage));
+    params = params.append('limit', String(totalperPage));
+
+    return this.http.get<Employee>(this.pythonUrrlp, { params }).pipe(
       map((res) => res as any),
       catchError(this.handleError)
     );
@@ -57,8 +73,12 @@ export class EmployeeServiceService {
     return this.http.put(this.baseUrluri + id, employee);
   }
 
+  // updatedEmployeePython(id: number, employee: Employee) {
+  //   return this.http.post(this.pythonUrrlp + 'update/' + id, employee);
+  // }
+
   deleteEmployee(id: number) {
-    return this.http.delete(this.baseUrluri + id);
+    return this.http.delete(this.pythonUrrlp + 'delete/' + id);
   }
   handleError(error: any) {
     const errMsg = error.Message

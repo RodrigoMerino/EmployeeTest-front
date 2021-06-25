@@ -1,4 +1,17 @@
 <div class="container">
+  <nav class="nav">
+    <i class="bi bi-arrow-left-square"></i>
+
+    <input
+      class="form-control mb-2"
+      name="name"
+      [(ngModel)]="name"
+      (ngModelChange)="Search()"
+      type="text"
+      placeholder="enter firstname to search for"
+      value="f26e"
+    />
+  </nav>
   <div class="row">
     <div class="col-md-7">
       <table class="table table-light">
@@ -13,10 +26,17 @@
           <tr *ngFor="let item of dataSource.data">
             <td>{{ item.name }}</td>
             <td>{{ item.lastName }}</td>
-            <td>{{ item.idAreaNavigation["areaName"] }}</td>
-            <td>{{ item.idSubareaNavigation["subareaName"] }}</td>
+            <td>{{ item.idAreaNavigation.areaName }}</td>
+            <td>{{ item.idSubareaNavigation.subareaName }}</td>
             <td>{{ item.document }}</td>
             <td>
+              <!-- 
+               <td>{{ item.name }}</td>
+            <td>{{ item.last_name }}</td>
+            <td>{{ item.area_name }}</td>
+            <td>{{ item.sub_area_name }}</td>
+            <td>{{ item.doc }}</td>
+            <td> -->
               <i
                 class="fas fa-user-edit"
                 style="cursor: pointer"
@@ -113,10 +133,7 @@
                       Choose here
                     </option>
 
-                    <option
-                      *ngFor="let area of areas.data"
-                      value="{{ area.id }}"
-                    >
+                    <option *ngFor="let area of areas" value="{{ area.id }}">
                       {{ area.areaName }}
                     </option>
                   </select>
@@ -134,7 +151,7 @@
                       *ngFor="let subarea of subareas"
                       value="{{ subarea.id }}"
                     >
-                      {{ subarea.subareaName }}
+                      {{ subarea.subarea_name }}
                     </option>
                   </select>
                 </div>
